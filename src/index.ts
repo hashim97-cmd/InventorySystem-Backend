@@ -13,9 +13,13 @@ import productsRoutes from './routes/products.routes.js';
 import uploadRoutes from "./routes/upload.routes.js";
 
 const app = express();
+const configuredOrigins = (process.env.FRONTEND_URL || '')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
 const allowedOrigins = [
     'http://localhost:3000',  // development
-    //   'https://tayyran.com'     // production
+    ...configuredOrigins,
 ];
 
 app.use(cors({

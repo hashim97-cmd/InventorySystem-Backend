@@ -77,18 +77,19 @@ export const login = async (req: Request, res: Response) => {
     }
 
     const isProd = process.env.NODE_ENV === 'production';
-
-    res.cookie('access_token', data.session.access_token, {
+    const cookieOptions = {
         httpOnly: true,
         secure: isProd,
-        sameSite: 'lax',
+        sameSite: isProd ? 'none' as const : 'lax' as const,
+    };
+
+    res.cookie('access_token', data.session.access_token, {
+        ...cookieOptions,
         maxAge: data.session.expires_in * 1000,
     });
 
     res.cookie('refresh_token', data.session.refresh_token, {
-        httpOnly: true,
-        secure: isProd,
-        sameSite: 'lax',
+        ...cookieOptions,
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     });
 
@@ -145,18 +146,19 @@ export const refresh = async (req: Request, res: Response) => {
     }
 
     const isProd = process.env.NODE_ENV === 'production';
-
-    res.cookie('access_token', data.session.access_token, {
+    const cookieOptions = {
         httpOnly: true,
         secure: isProd,
-        sameSite: 'lax',
+        sameSite: isProd ? 'none' as const : 'lax' as const,
+    };
+
+    res.cookie('access_token', data.session.access_token, {
+        ...cookieOptions,
         maxAge: data.session.expires_in * 1000,
     });
 
     res.cookie('refresh_token', data.session.refresh_token, {
-        httpOnly: true,
-        secure: isProd,
-        sameSite: 'lax',
+        ...cookieOptions,
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     });
 
