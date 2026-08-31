@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { prisma } from '../lib/prisma.ts';
+import { prisma } from '../lib/prisma.js';
 
 export type Category = {
     id: string;
     name: string;
-    parent_id: string | null;
-    sort_order: number;
-    created_at: string;
+    parentId: string | null;
+    sortOrder: number;
+    createdAt: Date;
     children?: Category[];
     product_count?: number;
 };
@@ -67,7 +67,7 @@ export const createCategory = async (
             const parentExists = await prisma.category.findUnique({
                 where: { id: parentId }
             });
-            
+
             if (!parentExists) {
                 res.status(400).json({ message: 'Parent category not found' });
                 return;
@@ -85,16 +85,18 @@ export const createCategory = async (
         res.status(201).json(category);
     } catch (error) {
         console.error('Error creating category:', error);
-        
+
         // Handle specific Prisma errors
-        if (error.code === 'P2002') {
+        if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') {
             res.status(409).json({ message: 'Category with this name already exists' });
             return;
         }
-        
-        res.status(500).json({ 
+
+        res.status(500).json({
             message: 'Error creating category',
-            ...(process.env.NODE_ENV === 'development' && { error: error.message })
+            ...(process.env.NODE_ENV === 'development' && {
+                error: error instanceof Error ? error.message : String(error),
+            })
         });
     }
 };

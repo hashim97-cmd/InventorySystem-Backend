@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { supabaseAnon, supabaseAdmin } from '../lib/supabase.ts';
-import { prisma } from '../lib/prisma.ts';
+import { supabaseAnon, supabaseAdmin } from '../lib/supabase.js';
+import { prisma } from '../lib/prisma.js';
 
 
 

@@ -1,10 +1,10 @@
 import { Router } from 'express';
 
-import { getProducts, getProductsByCategory, getProduct, getLowStockProducts, getOutOfStockProducts, createProduct, updateProduct, deleteProduct } from '@/controllers/products.controller.ts';
+import { getProducts, getProductsByCategory, getProduct, getLowStockProducts, getOutOfStockProducts, createProduct, updateProduct, deleteProduct } from '../controllers/products.controller.js';
 
 
-import { authenticate } from '../middleware/authenticate.ts';
-import { requireAdmin } from '../middleware/requireAdmin.ts';
+import { authenticate } from '../middleware/authenticate.js';
+import { requireAdmin } from '../middleware/requireAdmin.js';
 
 const router = Router();
 

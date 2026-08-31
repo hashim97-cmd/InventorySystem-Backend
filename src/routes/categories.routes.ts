@@ -5,9 +5,9 @@ import {
   updateCategory,
   deleteCategory,
   getProductCounts,
-} from '../controllers/categories.controller.ts';
-import { authenticate } from '../middleware/authenticate.ts';
-import { requireAdmin } from '../middleware/requireAdmin.ts';
+} from '../controllers/categories.controller.js';
+import { authenticate } from '../middleware/authenticate.js';
+import { requireAdmin } from '../middleware/requireAdmin.js';
 
 const router = Router();
 

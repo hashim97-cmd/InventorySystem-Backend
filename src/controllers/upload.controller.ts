@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { cloudinary } from '../lib/cloudinary.ts';
+import { cloudinary } from '../lib/cloudinary.js';
 import { UploadApiErrorResponse } from 'cloudinary';
 
 export const uploadImage = async (req: Request, res: Response) => {
@@ -37,7 +37,7 @@ export const uploadImage = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteImage = async (req: Request, res: Response) => {
+export const deleteImage = async (req: Request<{ publicId: string }>, res: Response) => {
   const { publicId } = req.params;
 
   try {

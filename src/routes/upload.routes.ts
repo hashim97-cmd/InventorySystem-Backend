@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import multer from 'multer';
-import { uploadImage, deleteImage } from '../controllers/upload.controller.ts';
-import { authenticate } from '../middleware/authenticate.ts';
-import { requireAdmin } from '../middleware/requireAdmin.ts';
+import { uploadImage, deleteImage } from '../controllers/upload.controller.js';
+import { authenticate } from '../middleware/authenticate.js';
+import { requireAdmin } from '../middleware/requireAdmin.js';
 
 const router = Router();
 

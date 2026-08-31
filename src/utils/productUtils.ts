@@ -1,4 +1,4 @@
-import { prisma } from '../lib/prisma.ts';
+import { prisma } from '../lib/prisma.js';
 
 export const attachCategories = async (products: any[]) => {
     // Collect unique categoryIds

@@ -2,10 +2,10 @@ import { Router } from 'express';
 import multer from 'multer';
 import path from 'path';
 import os from 'os';
-import { createUser, getAllUsers, updateUser, deleteUser, backup, restore } from '../controllers/admin.controller.ts';
-import { authenticate } from '../middleware/authenticate.ts';
-import { requireAdmin, requireSuperAdmin } from '../middleware/requireAdmin.ts';
-import { backupLimiter, restoreLimiter } from '../middleware/rateLimiter.ts';
+import { createUser, getAllUsers, updateUser, deleteUser, backup, restore } from '../controllers/admin.controller.js';
+import { authenticate } from '../middleware/authenticate.js';
+import { requireAdmin, requireSuperAdmin } from '../middleware/requireAdmin.js';
+import { backupLimiter, restoreLimiter } from '../middleware/rateLimiter.js';
 
 const router = Router();
 

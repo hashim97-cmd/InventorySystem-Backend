@@ -4,8 +4,8 @@ import fs from 'fs/promises';
 import { createWriteStream } from 'fs';
 import path from 'path';
 import { spawn } from 'child_process';
-import { supabaseAdmin } from '../lib/supabase.ts';
-import { prisma } from '../lib/prisma.ts';
+import { supabaseAdmin } from '../lib/supabase.js';
+import { prisma } from '../lib/prisma.js';
 
 
 export const createUser = async (req: Request, res: Response) => {
@@ -84,7 +84,7 @@ export const getAllUsers = async (_req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-    const { id } = req.params; // auth.users.id
+    const { id } = req.params as { id: string }; // auth.users.id
     const { role, password } = req.body;
 
     if (!role && !password) {
@@ -140,7 +140,7 @@ export const updateUser = async (req: Request, res: Response) => {
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const { id } = req.params as { id: string };
 
     try {
         // 1. Delete Profile FIRST — this blocks their JWT immediately in authenticate middleware

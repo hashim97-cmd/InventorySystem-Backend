@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import { prisma } from '../lib/prisma.ts';
-import { Prisma } from '../generated/prisma/client.ts';
-import { attachCategories } from '../utils/productUtils.ts';
-import { ApiError } from '@/utils/apiError.ts';
+import { NextFunction, Request, Response } from 'express';
+import { prisma } from '../lib/prisma.js';
+import { Prisma } from '../generated/prisma/client.js';
+import { attachCategories } from '../utils/productUtils.js';
+import { ApiError } from '../utils/apiError.js';
 
 const LOW_STOCK_THRESHOLD = 10;
 
@@ -205,7 +205,7 @@ export const getOutOfStockProducts = async (
     }
 };
 
-export const getProductsByCategory = async (req: Request, res: Response): Promise<void> => {
+export const getProductsByCategory = async (req: Request<{ categoryId: string }>, res: Response): Promise<void> => {
     try {
         const { categoryId } = req.params;
 
@@ -222,7 +222,7 @@ export const getProductsByCategory = async (req: Request, res: Response): Promis
     }
 };
 
-export const getProduct = async (req: Request, res: Response): Promise<void> => {
+export const getProduct = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
     try {
         const { id } = req.params;
 
@@ -380,7 +380,7 @@ const PRISMA_ERROR_MAP: Record<string, { status: number; body: Record<string, an
     P2023: { status: 400, body: { status: 'fail', message: 'Invalid product ID format' } },
 };
 
-export const updateProduct = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const updateProduct = async (req: Request<{ id: string }>, res: Response, next: NextFunction): Promise<void> => {
     const { id } = req.params;
 
     try {
@@ -441,7 +441,7 @@ export const updateProduct = async (req: Request, res: Response, next: NextFunct
     }
 };
 
-export const deleteProduct = async (req: Request, res: Response): Promise<void> => {
+export const deleteProduct = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
     try {
         const { id } = req.params;
 

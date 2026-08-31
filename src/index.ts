@@ -3,14 +3,14 @@ import "./config/env.js";
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import { ApiError } from "./utils/apiError.ts";
+import { ApiError } from "./utils/apiError.js";
 import cookieParser from "cookie-parser";
 // routes
-import authRoute from "./routes/auth.routes.ts";
-import categoriesRoutes from './routes/categories.routes.ts';
-import adminRoutes from './routes/admin.routes.ts';
-import productsRoutes from './routes/products.routes.ts';
-import uploadRoutes from "./routes/upload.routes.ts";
+import authRoute from "./routes/auth.routes.js";
+import categoriesRoutes from './routes/categories.routes.js';
+import adminRoutes from './routes/admin.routes.js';
+import productsRoutes from './routes/products.routes.js';
+import uploadRoutes from "./routes/upload.routes.js";
 
 const app = express();
 const allowedOrigins = [
