@@ -5,7 +5,9 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --exec tsx src/index.ts"
+    "dev": "nodemon --exec tsx src/index.ts",
+    "build": "prisma generate && tsc",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
@@ -37,7 +39,8 @@
     "@types/node": "^26.1.2",
     "@types/pg": "^8.20.4",
     "prisma": "^7.9.1",
-    "tsx": "^4.23.11"
+    "tsx": "^4.23.11",
+    "typescript": "^7.0.2"
   },
   "overrides": {
     "deepmerge-ts": "^8.0.0"
