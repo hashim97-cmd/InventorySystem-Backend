@@ -40,8 +40,7 @@
     "@types/pg": "^8.20.4",
     "prisma": "^7.9.1",
     "tsx": "^4.23.11",
-    "@typescript/typescript-linux-x64": "^7.0.2",
-    "typescript": "^7.0.2"
+    "typescript": "^5.8.3"
   },
   "overrides": {
     "deepmerge-ts": "^8.0.0"
