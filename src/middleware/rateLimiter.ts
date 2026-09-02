@@ -1,7 +1,7 @@
 import rateLimit from 'express-rate-limit';
 
 export const backupLimiter = rateLimit({
-  windowMs: 10 * 60 * 1000, // 10 minutes
+  windowMs: 1 * 60 * 1000, // 1 minutes
   max: 3,
   message: { message: 'Too many backup attempts. Try again later.' },
   standardHeaders: true,

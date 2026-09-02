@@ -17,11 +17,11 @@ const upload = multer({
             cb(null, `restore-${unique}${path.extname(file.originalname)}`);
         },
     }),
-    limits: { fileSize: 500 * 1024 * 1024 }, // 500 MB
+    limits: { fileSize: 500 * 1024 * 1024 }, // 500 MB for JSON
     fileFilter: (_req, file, cb) => {
         const ext = path.extname(file.originalname).toLowerCase();
-        if (['.dump', '.sql'].includes(ext)) cb(null, true);
-        else cb(new Error('Only .dump and .sql files are allowed'));
+        if (['.dump', '.sql', '.json'].includes(ext)) cb(null, true);
+        else cb(new Error('Only .dump, .sql, and .json files are allowed'));
     },
 });
 

@@ -3,6 +3,7 @@ import { prisma } from '../lib/prisma.js';
 import { Prisma } from '../generated/prisma/client.js';
 import { attachCategories } from '../utils/productUtils.js';
 import { ApiError } from '../utils/apiError.js';
+import { randomUUID } from 'node:crypto';
 
 const LOW_STOCK_THRESHOLD = 10;
 
@@ -17,6 +18,14 @@ const getStockAvailability = (quantity: number) => {
 
     return 'IN_STOCK';
 };
+
+async function generateProductCode(): Promise<string> {
+    let code = '';
+    do {
+        code = `P-${randomUUID().slice(0, 8).toUpperCase()}`;
+    } while (await prisma.product.findUnique({ where: { code } }));
+    return code;
+}
 
 export const getProducts = async (req: Request, res: Response): Promise<void> => {
     const {
@@ -280,10 +289,10 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
         } = req.body;
 
         // Validate required fields
-        if (!name || !code || basePrice === undefined) {
+        if (!name || basePrice === undefined) {
             res.status(400).json({
                 error: 'Validation error',
-                message: 'name, code, and basePrice are required',
+                message: 'name and basePrice are required',
             });
             return;
         }
@@ -291,7 +300,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
         // Build the data object
         const productData: any = {
             name,
-            code,
+            code: String(code || '').trim() || await generateProductCode(),
             categoryId: categoryId || null,
             quantity: quantity !== undefined ? parseInt(quantity) : 0,
             lengthCm: lengthCm ? new Prisma.Decimal(lengthCm) : null,
@@ -391,7 +400,7 @@ export const updateProduct = async (req: Request<{ id: string }>, res: Response,
         const updateData: any = {};
 
         for (const [field, transform] of Object.entries(UPDATABLE_FIELDS)) {
-            if (body[field] !== undefined) {
+            if (body[field] !== undefined && (field !== 'code' || String(body[field]).trim())) {
                 updateData[field] = transform(body[field]);
             }
         }
