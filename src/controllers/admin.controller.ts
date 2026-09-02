@@ -348,15 +348,20 @@ export const backup = async (_req: Request, res: Response) => {
 
         res.setHeader('Content-Type', 'application/json');
         res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+
+        // Keep the download available when the archive directory is not writable.
+        try {
+            const safetyDir = process.env.SAFETY_SNAPSHOT_DIR || './safety_snapshots';
+            const isProjectDir = safetyDir.includes('backend') || safetyDir.includes('src') || safetyDir.startsWith('.');
+            const finalDir = isProjectDir ? path.join(os.tmpdir(), 'inventory-snapshots') : safetyDir;
+
+            await fs.mkdir(finalDir, { recursive: true });
+            await fs.writeFile(path.join(finalDir, filename), JSON.stringify(backupData, null, 2));
+        } catch (snapshotError) {
+            console.warn('Backup archive could not be saved; sending download anyway:', snapshotError);
+        }
+
         res.json(backupData);
-
-        // Server-side copy
-        const safetyDir = process.env.SAFETY_SNAPSHOT_DIR || './safety_snapshots';
-        const isProjectDir = safetyDir.includes('backend') || safetyDir.includes('src') || safetyDir.startsWith('.');
-        const finalDir = isProjectDir ? path.join(os.tmpdir(), 'inventory-snapshots') : safetyDir;
-
-        await fs.mkdir(finalDir, { recursive: true });
-        await fs.writeFile(path.join(finalDir, filename), JSON.stringify(backupData, null, 2));
     } catch (err: any) {
         console.error('Backup error:', err);
         if (!res.headersSent) {
