@@ -76,7 +76,7 @@ export const login = async (req: Request, res: Response) => {
         return res.status(401).json({ message: error?.message || 'Invalid credentials' });
     }
 
-    const isProd = process.env.NODE_ENV === 'production';
+    const isProd = true;
     const cookieOptions = {
         httpOnly: true,
         secure: isProd,
@@ -145,7 +145,7 @@ export const refresh = async (req: Request, res: Response) => {
         return res.status(401).json({ message: error?.message || 'Invalid refresh token' });
     }
 
-    const isProd = process.env.NODE_ENV === 'production';
+    const isProd = true;
     const cookieOptions = {
         httpOnly: true,
         secure: isProd,
